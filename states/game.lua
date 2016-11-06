@@ -52,7 +52,7 @@ function game:update(dt)
 
         for j, b in ipairs(World.bullets) do
             if b:isCollidingWith(g) then
-                g:damage(1)
+                g:damage(b.hitdamage)
                 table.remove(World.bullets, j)
                 if g:isDead() then
                     World.score = World.score + g.points

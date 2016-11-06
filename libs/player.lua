@@ -32,7 +32,6 @@ function Player:input(dt)
         if self.canFire then
             self.canFire = false
             self:fireBullet()
-            TEsound.play('assets/sounds/laser.wav', 'laser')
             Timer.after(self.fireDelay, function() self.canFire = true end)
         end
     end
@@ -46,6 +45,7 @@ end
 function Player:fireBullet()
     local bulletPos = self.position + (rad2vec(self.rotation) * 20)
     local b = Bullet:new(bulletPos, self.rotation, 10)
+    TEsound.play(b.soundEffect, 'fire')
     table.insert(World.bullets, b)
 end
 

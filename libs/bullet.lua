@@ -4,11 +4,13 @@ Bullet:include(Physics)
 Bullet:include(Collidable)
 
 function Bullet:initialize(start, rot, speed)
-    Sprite.initialize(self, Assets.images.laser)
+    Sprite.initialize(self, Assets.images.bullet)
+    self.soundEffect = "assets/sounds/laser.wav"
     self.maxspeed = speed
     self.position = start
     self.rotation = rot
     self.velocity = rad2vec(rot) * speed
+    self.hitdamage = 1
     self.delete = false
 end
 
