@@ -17,7 +17,7 @@ function game:init()
     player = Player:new()
     player.position = vec(World.width / 2, World.height / 2)
     
-    for i=1, 50 do
+    for i=1, 100 do
         g = Ghost:new()
         g.position = vec(math.random(1, World.width), math.random(1, World.height))
         table.insert(World.enemies, g)
@@ -52,10 +52,13 @@ function game:update(dt)
 
         for j, b in ipairs(World.bullets) do
             if b:isCollidingWith(g) then
-                World.score = World.score + g.points
+                g:damage(1)
                 table.remove(World.bullets, j)
-                table.remove(World.enemies, i)
-                TEsound.play('assets/sounds/splat.wav', 'ghostdeath')
+                if g:isDead() then
+                    World.score = World.score + g.points
+                    table.remove(World.enemies, i)
+                    TEsound.play('assets/sounds/splat.wav', 'ghostdeath')
+                end
             end
         end
 

@@ -13,5 +13,9 @@ function Health:heal(amount, full)
     if full then self.health = self.maxHealth else self.health = self.health + amount end
 end
 
+function Health:isDead()
+    return self.health <= 0
+end
+
 return Health
 
