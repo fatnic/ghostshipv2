@@ -4,6 +4,7 @@ Timer     = require 'ext.hump.timer'
 Log       = require 'ext.log'
 Camera    = require 'ext.hump.camera'
 Assets    = require('ext.cargo').init('assets')
+require 'ext.TEsound'
 HC        = require 'ext.HC'
 vec       = require 'ext.hump.vector'
 class     = require 'ext.middleclass'
@@ -66,6 +67,7 @@ function love.update(dt)
     end
     Input:update()
     Timer.update(dt)
+    TEsound.cleanup()
 end
 
 function love.resize(w, h)

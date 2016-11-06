@@ -3,7 +3,7 @@ World = { width = 5000, height = 5000, ghosts = {}, bullets = {} }
 
 function game:init()
     player = Player:new()
-    player.position = vec(Window.width / 2, Window.height / 2)
+    player.position = vec(World.width / 2, World.height / 2)
     
     for i=1, 50 do
         g = Ghost:new()
@@ -19,7 +19,10 @@ function game:update(dt)
 
     player:update(dt)
 
-    for _, bullet in pairs(World.bullets) do bullet:update(dt) end
+    for i, bullet in ipairs(World.bullets) do
+        bullet:update(dt) 
+        if bullet.delete then table.remove(World.bullets, i) end
+    end
 
     for i, g in ipairs(World.ghosts) do 
         g:seek(player.position)
@@ -29,6 +32,7 @@ function game:update(dt)
             if b:isCollidingWith(g) then
                 table.remove(World.bullets, j)
                 table.remove(World.ghosts, i)
+                TEsound.play('assets/sounds/splat.wav', 'ghostdeath')
             end
         end
 
