@@ -45,6 +45,8 @@ Input = baton.new({
     reverse  = {'key:down', 'key:s'},
     fire     = {'key:space'},
 
+    heal    = {'key:h'},
+
     escape   = {'key:escape'},
     fullscreen = {'key:/'},
 })

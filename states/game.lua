@@ -29,6 +29,9 @@ end
 function game:update(dt)
     if Input:pressed 'escape' then love.event.push('quit') end
 
+    -- for debug
+    if Input:pressed 'heal' then player:heal(nil, true) end
+
     player:update(dt)
 
     for i, bullet in ipairs(World.bullets) do

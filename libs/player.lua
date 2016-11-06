@@ -10,7 +10,7 @@ function Player:initialize()
     self.maxspeed = 5
     self.rotspeed = 90
     self.canFire = true
-    self.fireDelay = 0.3
+    self.fireDelay = 0.2
     self.friction = 1.02
     self.maxHealth = 3
     self.health = 3

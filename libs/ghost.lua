@@ -6,7 +6,7 @@ Ghost:include(Collidable)
 
 function Ghost:initialize(image)
     Sprite.initialize(self, Assets.images.ghost)
-    self.maxspeed = 0.5
+    self.maxspeed = 1
     self.points = 1000
 end
 
