@@ -21,12 +21,16 @@ require 'states.game'
 Physics = require 'libs.mixins.physics'
 Seeking = require 'libs.mixins.seeking'
 Collidable = require 'libs.mixins.collidable'
+Health = require 'libs.mixins.health'
 
 -- entities
 Sprite = require 'libs.sprite'
 Player = require 'libs.player'
 Ghost = require 'libs.ghost'
 Bullet = require 'libs.bullet'
+
+-- fonts
+fntScore = Assets.fonts.grobold(20)
 
 -- window
 Window = { width = 0, height = 0, oldWidth = 800, oldHeight = 600 } 
@@ -58,6 +62,8 @@ function love.update(dt)
 
         if love.window.getFullscreen() then
             love.window.setMode(Window.oldWidth, Window.oldHeight)            
+			Window.width = Window.oldWidth
+			Window.height = Window.oldHeight
         else
             Window.oldWidth = Window.width
             Window.oldHeight = Window.height
