@@ -6,6 +6,7 @@ World = {
     enemies = {},
     bullets = {},
     score = 0,
+    map = { width = 150, height = 150 },
 }
 
 function game:init()
@@ -40,6 +41,7 @@ function game:update(dt)
         g:update(dt)
 
         if g:isCollidingWith(player) then
+            TEsound.play('assets/sounds/fart.wav', 'damagePlayer')
             player:damage(1)
             table.remove(World.enemies, i)
             break
@@ -67,10 +69,27 @@ function game:draw()
     for _, b in pairs(World.bullets) do b:draw() end
     camera:detach()
 
-    for i=1, player.health do
-        love.graphics.draw(Assets.images.heart, 20 + (32 * i) + 5, 20)
+    love.graphics.setFont(fntDigital)
+    love.graphics.print(love.timer.getFPS() .. " fps", Window.width - 90, 20) 
+
+    for i=1, player.health do love.graphics.draw(Assets.images.heart, -20 + (32 * i) + 5, 20) end
+
+    love.graphics.setColor(0, 0, 0, 200)
+    love.graphics.rectangle('fill', Window.width - World.map.width - 20, Window.height - World.map.height - 20, World.map.width, World.map.height)
+    
+    love.graphics.setColor(255, 255, 255, 200)
+    for _, g in pairs(World.enemies) do
+        local mapx = g.position.x / World.width * World.map.width
+        local mapy = g.position.y / World.height * World.map.height
+        love.graphics.rectangle('fill', Window.width - World.map.width - 20 + mapx, Window.height - World.map.height - 20 + mapy, 2, 2)
     end
 
+    love.graphics.setColor(0, 255, 0, 200)
+    local mapx = player.position.x / World.width * World.map.width
+    local mapy = player.position.y / World.height * World.map.height
+    love.graphics.rectangle('fill', Window.width - World.map.width - 20 + mapx, Window.height - World.map.height - 20 + mapy, 4, 4)
+
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(fntScore)
     love.graphics.print("SCORE: " .. comma_value(World.score), 30, Window.height - 30)
 end

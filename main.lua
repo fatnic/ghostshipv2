@@ -31,6 +31,7 @@ Bullet = require 'libs.bullet'
 
 -- fonts
 fntScore = Assets.fonts.grobold(20)
+fntDigital = Assets.fonts.digital(12)
 
 -- window
 Window = { width = 0, height = 0, oldWidth = 800, oldHeight = 600 } 
