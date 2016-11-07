@@ -6,11 +6,12 @@ Player:include(Health)
 
 function Player:initialize()
     Sprite.initialize(self, Assets.images.ship)
+    self.damageSound = 'assets/sounds/fart.wav'
     self.thrust = 15
     self.maxspeed = 5
     self.rotspeed = 120
     self.canFire = true
-    self.fireDelay = 0.2
+    self.fireDelay = 0.15
     self.friction = 1.02
     self.maxHealth = 3
     self.health = 3

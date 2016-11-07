@@ -44,7 +44,7 @@ function game:update(dt)
         g:update(dt)
 
         if g:isCollidingWith(player) then
-            TEsound.play('assets/sounds/fart.wav', 'damagePlayer')
+            TEsound.play(player.damageSound)
             player:damage(1)
             table.remove(World.enemies, i)
             break
@@ -57,7 +57,7 @@ function game:update(dt)
                 if g:isDead() then
                     World.score = World.score + g.points
                     table.remove(World.enemies, i)
-                    TEsound.play('assets/sounds/splat.wav', 'ghostdeath')
+                    TEsound.play(g.deathSound)
                 end
             end
         end

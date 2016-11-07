@@ -1,7 +1,7 @@
 Seeking = {}
 
 function Seeking:included(self)
-    self.maxforce = 0.1
+    self.maxforce = 0.055555
 end
 
 function Seeking:seek(target)

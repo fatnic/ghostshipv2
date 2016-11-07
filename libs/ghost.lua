@@ -7,6 +7,7 @@ Ghost:include(Health)
 
 function Ghost:initialize()
     Sprite.initialize(self, Assets.images.ghost)
+    self.deathSound = "assets/sounds/splat.wav"
     self.maxspeed = 1
     self.points = 1000
     self.health = 2
