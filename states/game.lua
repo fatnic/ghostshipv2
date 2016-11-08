@@ -64,7 +64,37 @@ function game:update(dt)
 
     end
 
-    camera:lookAt(player.position:unpack())
+    Window.view.top = player.position.y - (Window.height /2)
+    Window.view.left = player.position.x - (Window.width / 2)
+
+    Window.campos.x = player.position.x
+    Window.campos.y = player.position.y
+
+    local bump = false
+
+    if player.position.x <= 0 + (Window.width / 2) then 
+        Window.campos.x = (Window.width / 2)
+        if player.position.x <= 0 then bump = true end
+    end
+
+    if player.position.x >= World.width - (Window.width / 2) then 
+        Window.campos.x = World.width - (Window.width / 2) 
+        if player.position.x >= World.width then bump = true end
+    end
+
+    if player.position.y <= 0 + (Window.height / 2) then 
+        Window.campos.y = (Window.height / 2) 
+        if player.position.y <= 0 then bump = true end
+    end
+
+    if player.position.y >= World.height - (Window.height / 2) then 
+        Window.campos.y = World.height - (Window.height / 2) 
+        if player.position.y >= World.height then bump = true end
+    end
+
+    if bump then player:addForce(-player.velocity * 10) end
+
+    camera:lookAt(Window.campos.x, Window.campos.y)
 end
 
 function game:draw()

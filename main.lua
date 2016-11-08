@@ -38,7 +38,7 @@ fntScore = Assets.fonts.grobold(20)
 fntDigital = Assets.fonts.digital(12)
 
 -- window
-Window = { width = 0, height = 0, oldWidth = 800, oldHeight = 600 } 
+Window = { width = 0, height = 0, oldWidth = 800, oldHeight = 600, view = { top = 0, left = 0 }, campos = { x = 0, y = 0 }} 
 
 -- input
 baton = require 'ext.baton'

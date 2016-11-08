@@ -12,8 +12,8 @@ function Player:initialize()
     self.rotspeed = 120
     self.canFire = true
     self.friction = 1.02
-    self.maxHealth = 3
-    self.health = 3
+    self.maxHealth = 5
+    self.health = 5
     self.weapon = 'bullet'
 end
 

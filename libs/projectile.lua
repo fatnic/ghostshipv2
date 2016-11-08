@@ -24,8 +24,8 @@ function Projectile:update(dt)
     self:updatePhysics(dt)
     self:updateCollidable()
 
-    if self.position.x < -20 or self.position.x > World.width + 20 then self.delete = true end
-    if self.position.y < -20 or self.position.y > World.height + 20 then self.delete = true end
+    if self.position.x < Window.view.left or self.position.x > Window.view.left + Window.width then self.delete = true end
+    if self.position.y <  Window.view.top or self.position.y > Window.view.top + Window.height  then self.delete = true end
 end
 
 function Projectile:draw()
