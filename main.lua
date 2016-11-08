@@ -32,6 +32,7 @@ Ghost = require 'libs.ghost'
 
 Projectile = require 'libs.projectile'
 Weapons = require 'weapons'
+
 -- fonts
 fntScore = Assets.fonts.grobold(20)
 fntDigital = Assets.fonts.digital(12)
@@ -42,15 +43,23 @@ Window = { width = 0, height = 0, oldWidth = 800, oldHeight = 600 }
 -- input
 baton = require 'ext.baton'
 Input = baton.new({
-    rotleft  = {'key:left', 'key:a'},
-    rotright = {'key:right', 'key:d'},
-    forwards = {'key:up', 'key:w'},
-    reverse  = {'key:down', 'key:s'},
-    fire     = {'key:space'},
+    rotleft    = {'key:left', 'key:a'},
+    rotright   = {'key:right', 'key:d'},
+    forwards   = {'key:up', 'key:w'},
+    reverse    = {'key:down', 'key:s'},
+    fire       = {'key:space'},
 
-    heal    = {'key:h'},
+    heal       = {'key:h'},
 
-    escape   = {'key:escape'},
+    bullet     = {'key:1'},
+    dualbullet = {'key:2'},
+    tribullet  = {'key:3'},
+
+    plasma     = {'key:4'},
+    dualplasma = {'key:5'},
+    triplasma  = {'key:6'},
+
+    escape     = {'key:escape'},
     fullscreen = {'key:/'},
 })
 

@@ -14,6 +14,7 @@ function Player:initialize()
     self.friction = 1.02
     self.maxHealth = 3
     self.health = 3
+    self.weapon = 'bullet'
 end
 
 function Player:input(dt)
@@ -27,6 +28,13 @@ function Player:input(dt)
 
     if Input:down 'rotleft'  then self:rotate(-self.rotspeed * dt) end
     if Input:down 'rotright' then self:rotate(self.rotspeed * dt) end
+
+    if Input:pressed 'bullet' then self.weapon = 'bullet' end
+    if Input:pressed 'dualbullet' then self.weapon = 'dualbullet' end
+    if Input:pressed 'tribullet' then self.weapon = 'tribullet' end
+    if Input:pressed 'plasma' then self.weapon = 'plasma' end
+    if Input:pressed 'dualplasma' then self.weapon = 'dualplasma' end
+    if Input:pressed 'triplasma' then self.weapon = 'triplasma' end
 
     if Input:down 'fire' then 
         if self.canFire then
@@ -42,13 +50,12 @@ function Player:accelerate(speed)
 end
 
 function Player:fireBullet()
-    local btype = 'tribullet'
-    for _, p in pairs(Weapons[btype].projectiles) do
+    for _, p in pairs(Weapons[self.weapon].projectiles) do
         local b = Projectile:new(p, self.position, self.rotation)
         table.insert(World.projectiles, b)
     end
-    Timer.after(Weapons[btype].cooldown, function() self.canFire = true end)
-    TEsound.play(Weapons[btype].sound, 'fire')
+    Timer.after(Weapons[self.weapon].cooldown, function() self.canFire = true end)
+    TEsound.play(Weapons[self.weapon].sound, 'fire')
 end
 
 function Player:update(dt)

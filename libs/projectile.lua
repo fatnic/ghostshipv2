@@ -16,7 +16,6 @@ function Projectile:initialize(config, start, rot)
     self.position = self.position + (rad2vec(self.rotation):perpendicular():normalizeInplace() * xoff)
 
     local rotoffset = config.rotoffset or 0
-
     self.velocity = rad2vec(self.rotation + deg2rad(rotoffset)) * self.speed
     self.delete = false
 end
