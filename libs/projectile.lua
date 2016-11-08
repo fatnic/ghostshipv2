@@ -13,7 +13,7 @@ function Projectile:initialize(config, start, rot)
     local xoff = config.xoffset or 0
     local yoff = config.yoffset or 0
     self.position = start + (rad2vec(self.rotation):normalized() * yoff)
-    -- self.position = self.position:perpendicular():normalizeInplace() * xoff
+    self.position = self.position + (rad2vec(self.rotation):perpendicular():normalizeInplace() * xoff)
     self.delete = false
 end
 

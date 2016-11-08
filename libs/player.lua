@@ -44,7 +44,7 @@ function Player:accelerate(speed)
 end
 
 function Player:fireBullet()
-    local btype = 'bullet'
+    local btype = 'dualbullet'
     for _, p in pairs(Weapons[btype].projectiles) do
         local b = Projectile:new(p, self.position, self.rotation)
         table.insert(World.projectiles, b)
