@@ -1,30 +1,13 @@
-Bullet = class('Bullet', Sprite)
-
-Bullet:include(Physics)
-Bullet:include(Collidable)
+Bullet = class('Bullet', Projectile)
 
 function Bullet:initialize(start, rot, speed)
-    Sprite.initialize(self, Assets.images.bullet)
+    Projectile.initialize(self, Assets.images.bullet, start, rot, speed)
     self.soundEffect = "assets/sounds/laser.wav"
-    self.maxspeed = speed
-    self.position = start
-    self.rotation = rot
-    self.velocity = rad2vec(rot) * speed
     self.hitdamage = 1
-    self.delete = false
 end
 
 function Bullet:update(dt)
-    self:updatePhysics(dt)
-    self:updateCollidable()
-
-    if self.position.x < -20 or self.position.x > World.width + 20 then self.delete = true end
-    if self.position.y < -20 or self.position.y > World.height + 20 then self.delete = true end
-end
-
-function Bullet:draw()
-    Sprite.draw(self)
-    -- self:drawBB()
+    Projectile.update(self, dt)
 end
 
 return Bullet

@@ -4,7 +4,7 @@ World = {
     width = 5000,
     height = 5000,
     enemies = {},
-    bullets = {},
+    projectiles = {},
     score = 0,
     map = { width = 150, height = 150 },
 }
@@ -34,9 +34,9 @@ function game:update(dt)
 
     player:update(dt)
 
-    for i, bullet in ipairs(World.bullets) do
-        bullet:update(dt) 
-        if bullet.delete then table.remove(World.bullets, i) end
+    for i, projectile in ipairs(World.projectiles) do
+        projectile:update(dt) 
+        if projectile.delete then table.remove(World.projectiles, i) end
     end
 
     for i, g in ipairs(World.enemies) do 
@@ -50,10 +50,10 @@ function game:update(dt)
             break
         end
 
-        for j, b in ipairs(World.bullets) do
-            if b:isCollidingWith(g) then
-                g:damage(b.hitdamage)
-                table.remove(World.bullets, j)
+        for j, p in ipairs(World.projectiles) do
+            if p:isCollidingWith(g) then
+                g:damage(p.hitdamage)
+                table.remove(World.projectiles, j)
                 if g:isDead() then
                     World.score = World.score + g.points
                     table.remove(World.enemies, i)
@@ -72,13 +72,13 @@ function game:draw()
     love.graphics.draw(Assets.images.background, bgQuad, 0, 0)
     player:draw()
     for _, g in pairs(World.enemies) do g:draw() end
-    for _, b in pairs(World.bullets) do b:draw() end
+    for _, b in pairs(World.projectiles) do b:draw() end
     camera:detach()
 
     love.graphics.setFont(fntDigital)
     love.graphics.print(love.timer.getFPS() .. " fps", Window.width - 90, 20) 
 
-    for i=1, player.health do love.graphics.draw(Assets.images.heart, -20 + (32 * i) + 5, 20) end
+    for i=1, player.health do love.graphics.draw(Assets.images.heart, -20 + (38 * i) + 5, 20) end
 
     love.graphics.setColor(0, 0, 0, 200)
     love.graphics.rectangle('fill', Window.width - World.map.width - 20, Window.height - World.map.height - 20, World.map.width, World.map.height)

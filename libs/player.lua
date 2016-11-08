@@ -44,10 +44,12 @@ function Player:accelerate(speed)
 end
 
 function Player:fireBullet()
-    local bulletPos = self.position + (rad2vec(self.rotation) * 20)
-    local b = Bullet:new(bulletPos, self.rotation, 10)
-    TEsound.play(b.soundEffect, 'fire')
-    table.insert(World.bullets, b)
+    local btype = 'bullet'
+    for _, p in pairs(Weapons[btype].projectiles) do
+        local b = Projectile:new(p, self.position, self.rotation)
+        table.insert(World.projectiles, b)
+    end
+    TEsound.play(Weapons[btype].sound, 'fire')
 end
 
 function Player:update(dt)

@@ -29,8 +29,9 @@ Health = require 'libs.mixins.health'
 Sprite = require 'libs.sprite'
 Player = require 'libs.player'
 Ghost = require 'libs.ghost'
-Bullet = require 'libs.bullet'
 
+Projectile = require 'libs.projectile'
+Weapons = require 'weapons'
 -- fonts
 fntScore = Assets.fonts.grobold(20)
 fntDigital = Assets.fonts.digital(12)
