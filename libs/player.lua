@@ -11,7 +11,6 @@ function Player:initialize()
     self.maxspeed = 5
     self.rotspeed = 120
     self.canFire = true
-    self.fireDelay = 0.15
     self.friction = 1.02
     self.maxHealth = 3
     self.health = 3
@@ -33,7 +32,6 @@ function Player:input(dt)
         if self.canFire then
             self.canFire = false
             self:fireBullet()
-            Timer.after(self.fireDelay, function() self.canFire = true end)
         end
     end
 end
@@ -44,11 +42,12 @@ function Player:accelerate(speed)
 end
 
 function Player:fireBullet()
-    local btype = 'dualbullet'
+    local btype = 'tribullet'
     for _, p in pairs(Weapons[btype].projectiles) do
         local b = Projectile:new(p, self.position, self.rotation)
         table.insert(World.projectiles, b)
     end
+    Timer.after(Weapons[btype].cooldown, function() self.canFire = true end)
     TEsound.play(Weapons[btype].sound, 'fire')
 end
 

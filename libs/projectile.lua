@@ -9,11 +9,15 @@ function Projectile:initialize(config, start, rot)
     self.hitdamage = config.hitdamage or 1
     self.speed = config.speed or 8
     self.maxspeed = self.speed
-    self.velocity = rad2vec(self.rotation) * self.speed
+
     local xoff = config.xoffset or 0
     local yoff = config.yoffset or 0
     self.position = start + (rad2vec(self.rotation):normalized() * yoff)
     self.position = self.position + (rad2vec(self.rotation):perpendicular():normalizeInplace() * xoff)
+
+    local rotoffset = config.rotoffset or 0
+
+    self.velocity = rad2vec(self.rotation + deg2rad(rotoffset)) * self.speed
     self.delete = false
 end
 
