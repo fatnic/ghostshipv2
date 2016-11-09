@@ -7,6 +7,9 @@ function Collidable:updateCollidable(dt)
 end
 
 function Collidable:isCollidingWith(other)
+    if not self.bb then Log.error(self.class.name .. ' is missing bb'); return false end
+    if not other.bb then Log.error(other.class.name .. ' is missing bb'); return false end
+
     return self.bb:collidesWith(other.bb)
 end
 

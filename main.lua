@@ -21,10 +21,10 @@ require 'states.mainmenu'
 require 'states.game'
 
 -- mixins
-Physics = require 'libs.mixins.physics'
-Seeking = require 'libs.mixins.seeking'
+Physics    = require 'libs.mixins.physics'
+Seeking    = require 'libs.mixins.seeking'
 Collidable = require 'libs.mixins.collidable'
-Health = require 'libs.mixins.health'
+Health     = require 'libs.mixins.health'
 
 -- entities
 Sprite = require 'libs.sprite'
@@ -75,6 +75,7 @@ function love.load(args)
 end
 
 function love.update(dt)
+
     if Input:pressed 'fullscreen' then 
 
         if love.window.getFullscreen() then

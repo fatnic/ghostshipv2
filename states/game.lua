@@ -20,7 +20,7 @@ function game:init()
     for i=1, 150 do
         g = Ghost:new()
         g.position = vec(math.random(1, World.width), math.random(1, World.height))
-        g.maxspeed = math.random(1, 20) / 10.0
+        g.maxspeed = math.random(5, 20) / 10.0
         table.insert(World.enemies, g)
     end
 
@@ -126,8 +126,8 @@ function game:draw()
     camera:detach()
 
     -- draw fps
-    -- love.graphics.setFont(fntDigital)
-    -- love.graphics.print(love.timer.getFPS() .. " fps", Window.width - 90, 20) 
+    love.graphics.setFont(fntDigital)
+    love.graphics.print(love.timer.getFPS() .. " fps", Window.width - 90, 20) 
 
     -- draw health
     for i=1, player.health do love.graphics.draw(Assets.images.heart, -20 + (38 * i) + 5, 20) end

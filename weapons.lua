@@ -29,7 +29,7 @@ local Weapons = {
 
     plasma = {
         sound = 'assets/sounds/laser.wav',
-        cooldown = 0.2,
+        cooldown = 0.5,
         projectiles = { 
             { image = Assets.images.plasma, speed = 8, hitdamage = 2, yoffset = 20, },
         }
@@ -37,7 +37,7 @@ local Weapons = {
 
     dualplasma = {
         sound = 'assets/sounds/laser.wav',
-        cooldown = 0.2,
+        cooldown = 0.5,
         projectiles = { 
             { image = Assets.images.plasma, speed = 8, hitdamage = 2, xoffset = -10, yoffset = 0, },
             { image = Assets.images.plasma, speed = 8, hitdamage = 2, xoffset =  10, yoffset = 0, },
@@ -46,7 +46,7 @@ local Weapons = {
 
     triplasma = {
         sound = 'assets/sounds/laser.wav',
-        cooldown = 0.3,
+        cooldown = 0.5,
         projectiles = { 
             { image = Assets.images.plasma, speed = 8, hitdamage = 2, yoffset = 20, },
             { image = Assets.images.plasma, speed = 8, hitdamage = 2, xoffset = -10, yoffset = 0, rotoffset = -3, },
