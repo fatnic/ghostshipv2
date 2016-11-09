@@ -35,6 +35,7 @@ function Player:input(dt)
     if Input:pressed 'plasma' then self.weapon = 'plasma' end
     if Input:pressed 'dualplasma' then self.weapon = 'dualplasma' end
     if Input:pressed 'triplasma' then self.weapon = 'triplasma' end
+    if Input:pressed 'septplasma' then self.weapon = 'septplasma' end
 
     if Input:down 'fire' then 
         if self.canFire then

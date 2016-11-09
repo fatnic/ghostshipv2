@@ -20,6 +20,7 @@ function game:init()
     for i=1, 100 do
         g = Ghost:new()
         g.position = vec(math.random(1, World.width), math.random(1, World.height))
+        g.maxspeed = math.random(1, 20) / 10.0
         table.insert(World.enemies, g)
     end
 
@@ -46,6 +47,7 @@ function game:update(dt)
         if g:isCollidingWith(player) then
             TEsound.play(player.damageSound)
             player:damage(1)
+            screen:setShake(20)
             table.remove(World.enemies, i)
             break
         end
@@ -74,22 +76,34 @@ function game:update(dt)
 
     if player.position.x <= 0 + (Window.width / 2) then 
         Window.campos.x = (Window.width / 2)
-        if player.position.x <= 0 then bump = vec(0, 1) end
+        if player.position.x <= 0 then 
+            player.position.x = 1
+            bump = vec(0, 1) 
+        end
     end
 
     if player.position.x >= World.width - (Window.width / 2) then 
         Window.campos.x = World.width - (Window.width / 2) 
-        if player.position.x >= World.width then bump = vec(0, -1) end
+        if player.position.x >= World.width then 
+            player.position.x = World.width - 1
+            bump = vec(0, -1) 
+        end
     end
 
     if player.position.y <= 0 + (Window.height / 2) then 
         Window.campos.y = (Window.height / 2) 
-        if player.position.y <= 0 then bump = vec(1, 0) end
+        if player.position.y <= 0 then 
+            player.position.y = 1
+            bump = vec(1, 0)
+        end
     end
 
     if player.position.y >= World.height - (Window.height / 2) then 
         Window.campos.y = World.height - (Window.height / 2) 
-        if player.position.y >= World.height then bump = vec(1, 0) end
+        if player.position.y >= World.height then 
+            player.position.y = World.height -1  
+            bump = vec(1, 0) 
+        end
     end
 
     if bump then player:addForce(player.velocity:mirrorOn(bump) * 3) end
@@ -98,6 +112,8 @@ function game:update(dt)
 end
 
 function game:draw()
+    -- draw game
+    screen:apply()
     camera:attach()
     love.graphics.draw(Assets.images.background, bgQuad, 0, 0)
     player:draw()
@@ -105,11 +121,14 @@ function game:draw()
     for _, b in pairs(World.projectiles) do b:draw() end
     camera:detach()
 
-    love.graphics.setFont(fntDigital)
-    love.graphics.print(love.timer.getFPS() .. " fps", Window.width - 90, 20) 
+    -- draw fps
+    -- love.graphics.setFont(fntDigital)
+    -- love.graphics.print(love.timer.getFPS() .. " fps", Window.width - 90, 20) 
 
+    -- draw health
     for i=1, player.health do love.graphics.draw(Assets.images.heart, -20 + (38 * i) + 5, 20) end
 
+    -- draw minimap
     love.graphics.setColor(0, 0, 0, 200)
     love.graphics.rectangle('fill', Window.width - World.map.width - 20, Window.height - World.map.height - 20, World.map.width, World.map.height)
     
@@ -125,6 +144,7 @@ function game:draw()
     local mapy = player.position.y / World.height * World.map.height
     love.graphics.rectangle('fill', Window.width - World.map.width - 20 + mapx, Window.height - World.map.height - 20 + mapy, 4, 4)
 
+    -- draw score
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(fntScore)
     love.graphics.print("SCORE: " .. comma_value(World.score), 30, Window.height - 30)

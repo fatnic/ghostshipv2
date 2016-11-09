@@ -8,6 +8,7 @@ HC        = require 'ext.HC'
 vec       = require 'ext.hump.vector'
 class     = require 'ext.middleclass'
 anim8     = require 'ext.anim8'
+screen    = require 'ext.shack'
 
 require 'ext.TEsound'
 
@@ -35,7 +36,7 @@ Weapons = require 'weapons'
 
 -- fonts
 fntScore = Assets.fonts.grobold(20)
-fntDigital = Assets.fonts.digital(12)
+fntDigital = Assets.fonts.arcadeclassic(18)
 
 -- window
 Window = { width = 0, height = 0, oldWidth = 800, oldHeight = 600, view = { top = 0, left = 0 }, campos = { x = 0, y = 0 }} 
@@ -58,6 +59,7 @@ Input = baton.new({
     plasma     = {'key:4'},
     dualplasma = {'key:5'},
     triplasma  = {'key:6'},
+    septplasma = {'key:7'},
 
     escape     = {'key:escape'},
     fullscreen = {'key:/'},
@@ -86,6 +88,7 @@ function love.update(dt)
         end
 
     end
+    screen:update(dt)
     Input:update()
     Timer.update(dt)
     TEsound.cleanup()
