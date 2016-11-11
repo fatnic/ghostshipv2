@@ -21,7 +21,7 @@ function Ghost:update(dt)
 
     if self.position.x - self.target.x <= 2 then
         if self.position.y - self.target.y <= 2 then
-            self:setRandomTarget()
+            self.target = nil
         end
     end
 end

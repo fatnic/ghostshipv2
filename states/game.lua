@@ -36,6 +36,7 @@ function game:update(dt)
 
     while #World.enemies < 50  do
         g = Ghost:new()
+        -- TODO: select a random location outside screen
         g.position = vec(math.random(1, World.width), math.random(1, World.height))
         g.maxspeed = math.random(5, 20) / 10.0
         table.insert(World.enemies, g)
@@ -49,6 +50,7 @@ function game:update(dt)
 
         g:update(dt)
 
+        -- TODO: check if within screen first or pointless
         if g:isCollidingWith(player) then
             TEsound.play(player.damageSound)
             player:damage(1)
@@ -57,6 +59,7 @@ function game:update(dt)
             break
         end
 
+        -- TODO: check if within screen first or pointless
         for j, p in ipairs(World.projectiles) do
             if p:isCollidingWith(g) then
                 g:damage(p.hitdamage)
@@ -70,7 +73,6 @@ function game:update(dt)
         end
 
     end
-
 
     Window.campos.x = player.position.x
     Window.campos.y = player.position.y
@@ -138,6 +140,7 @@ function game:draw()
     love.graphics.setColor(0, 0, 0, 200)
     love.graphics.rectangle('fill', Window.width - World.map.width - 20, Window.height - World.map.height - 20, World.map.width, World.map.height)
     
+    -- minimap enemies
     love.graphics.setColor(255, 255, 255, 200)
     for _, g in pairs(World.enemies) do
         local mapx = g.position.x / World.width * World.map.width
@@ -145,7 +148,8 @@ function game:draw()
         love.graphics.rectangle('fill', Window.width - World.map.width - 20 + mapx, Window.height - World.map.height - 20 + mapy, 2, 2)
     end
 
-    love.graphics.setColor(0, 255, 0, 200)
+    -- minimap player
+    love.graphics.setColor(0, 0, 255, 200)
     local mapx = player.position.x / World.width * World.map.width
     local mapy = player.position.y / World.height * World.map.height
     love.graphics.rectangle('fill', Window.width - World.map.width - 20 + mapx, Window.height - World.map.height - 20 + mapy, 4, 4)
