@@ -17,12 +17,6 @@ function game:init()
     player = Player:new()
     player.position = vec(World.width / 2, World.height / 2)
     
-    for i=1, 150 do
-        g = Ghost:new()
-        g.position = vec(math.random(1, World.width), math.random(1, World.height))
-        g.maxspeed = math.random(5, 20) / 10.0
-        table.insert(World.enemies, g)
-    end
 
     camera = Camera(player.position:unpack())
 end
@@ -38,6 +32,13 @@ function game:update(dt)
     for i, projectile in ipairs(World.projectiles) do
         projectile:update(dt) 
         if projectile.delete then table.remove(World.projectiles, i) end
+    end
+
+    while #World.enemies < 50  do
+        g = Ghost:new()
+        g.position = vec(math.random(1, World.width), math.random(1, World.height))
+        g.maxspeed = math.random(5, 20) / 10.0
+        table.insert(World.enemies, g)
     end
 
     for i, g in ipairs(World.enemies) do 
@@ -70,8 +71,6 @@ function game:update(dt)
 
     end
 
-    Window.view.top = player.position.y - (Window.height /2)
-    Window.view.left = player.position.x - (Window.width / 2)
 
     Window.campos.x = player.position.x
     Window.campos.y = player.position.y
@@ -90,7 +89,7 @@ function game:update(dt)
         Window.campos.x = World.width - (Window.width / 2) 
         if player.position.x >= World.width then 
             player.position.x = World.width - 1
-            bump = vec(0, -1) 
+            bump = vec(0, 1) 
         end
     end
 
@@ -109,6 +108,9 @@ function game:update(dt)
             bump = vec(1, 0) 
         end
     end
+    
+    Window.view.top = Window.campos.y - (Window.height /2)
+    Window.view.left = Window.campos.x - (Window.width / 2)
 
     if bump then player:addForce(player.velocity:mirrorOn(bump) * 3) end
 

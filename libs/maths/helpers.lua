@@ -10,9 +10,6 @@ function vec2rad(vector)
     return math.atan2(vector.y, vector.x)
 end
 
-function radOffset(vector, offset)
-end
-
 function comma_value(amount)
   local formatted = amount
   while true do  

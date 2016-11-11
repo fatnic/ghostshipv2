@@ -18,7 +18,7 @@ function Player:initialize()
 
     self.particles = love.graphics.newParticleSystem(Assets.images.particle, 16)
     self.particles:setParticleLifetime(0.5, 1.2)
-    self.particles:setColors({0, 0, 200, 50, 190, 190, 190, 50})
+    self.particles:setColors({0, 90, 200, 15})
     self.particles:setSizes(0.2, 1)
     self.particles:setSizeVariation(0.8)
     self.particles:setSpeed(28)
