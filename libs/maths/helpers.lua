@@ -10,6 +10,11 @@ function vec2rad(vector)
     return math.atan2(vector.y, vector.x)
 end
 
+function isInView(thing)
+    return thing.position.x > Window.view.left and thing.position.x < (Window.view.left + Window.width) and
+           thing.position.y > Window.view.top and thing.position.y < (Window.view.top + Window.height)
+end
+
 function comma_value(amount)
   local formatted = amount
   while true do  

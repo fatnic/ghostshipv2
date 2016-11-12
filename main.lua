@@ -32,7 +32,7 @@ Player = require 'libs.player'
 Ghost = require 'libs.ghost'
 
 Projectile = require 'libs.projectile'
-Weapons = require 'weapons'
+Weapons = require 'libs.weapons'
 
 -- fonts
 fntScore = Assets.fonts.grobold(20)

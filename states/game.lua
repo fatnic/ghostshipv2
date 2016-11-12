@@ -16,12 +16,12 @@ function game:init()
 
     player = Player:new()
     player.position = vec(World.width / 2, World.height / 2)
-    
 
     camera = Camera(player.position:unpack())
 end
 
 function game:update(dt)
+
     if Input:pressed 'escape' then love.event.push('quit') end
 
     -- for debug
@@ -36,8 +36,11 @@ function game:update(dt)
 
     while #World.enemies < 50  do
         g = Ghost:new()
-        -- TODO: select a random location outside screen
-        g.position = vec(math.random(1, World.width), math.random(1, World.height))
+        local goodpos = false
+        while not goodpos do
+            g.position = vec(math.random(1, World.width), math.random(1, World.height))
+            if not isInView(g) then goodpos = true end
+        end
         g.maxspeed = math.random(5, 20) / 10.0
         table.insert(World.enemies, g)
     end
@@ -50,24 +53,26 @@ function game:update(dt)
 
         g:update(dt)
 
-        -- TODO: check if within screen first or pointless
-        if g:isCollidingWith(player) then
-            TEsound.play(player.damageSound)
-            player:damage(1)
-            screen:setShake(30)
-            table.remove(World.enemies, i)
-            break
+        if isInView(g) then
+            if g:isCollidingWith(player) then
+                TEsound.play(player.damageSound)
+                player:damage(1)
+                screen:setShake(30)
+                table.remove(World.enemies, i)
+                break
+            end
         end
 
-        -- TODO: check if within screen first or pointless
         for j, p in ipairs(World.projectiles) do
-            if p:isCollidingWith(g) then
-                g:damage(p.hitdamage)
-                table.remove(World.projectiles, j)
-                if g:isDead() then
-                    World.score = World.score + g.points
-                    table.remove(World.enemies, i)
-                    TEsound.play(g.deathSound)
+            if isInView(p) then
+                if p:isCollidingWith(g) then
+                    g:damage(p.hitdamage)
+                    table.remove(World.projectiles, j)
+                    if g:isDead() then
+                        World.score = World.score + g.points
+                        table.remove(World.enemies, i)
+                        TEsound.play(g.deathSound)
+                    end
                 end
             end
         end
@@ -110,7 +115,7 @@ function game:update(dt)
             bump = vec(1, 0) 
         end
     end
-    
+
     Window.view.top = Window.campos.y - (Window.height /2)
     Window.view.left = Window.campos.x - (Window.width / 2)
 
@@ -139,7 +144,7 @@ function game:draw()
     -- draw minimap
     love.graphics.setColor(0, 0, 0, 200)
     love.graphics.rectangle('fill', Window.width - World.map.width - 20, Window.height - World.map.height - 20, World.map.width, World.map.height)
-    
+
     -- minimap enemies
     love.graphics.setColor(255, 255, 255, 200)
     for _, g in pairs(World.enemies) do
