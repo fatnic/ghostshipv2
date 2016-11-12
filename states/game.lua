@@ -4,9 +4,11 @@ World = {
     width = 5000,
     height = 5000,
     enemies = {},
+    enemiescount = 0,
     projectiles = {},
     score = 0,
     map = { width = 150, height = 150 },
+    particles = {},
 }
 
 function game:init()
@@ -34,18 +36,20 @@ function game:update(dt)
         if projectile.delete then table.remove(World.projectiles, i) end
     end
 
-    while #World.enemies < 50  do
-        g = Ghost:new()
+    while World.enemiescount < 50  do
         local goodpos = false
+        g = Ghost:new()
+        g.uuid = uuid()
+        g.maxspeed = math.random(5, 20) / 10.0
         while not goodpos do
             g.position = vec(math.random(1, World.width), math.random(1, World.height))
             if not isInView(g) then goodpos = true end
         end
-        g.maxspeed = math.random(5, 20) / 10.0
-        table.insert(World.enemies, g)
+        World.enemies[g.uuid] = g
+        World.enemiescount = World.enemiescount + 1
     end
 
-    for i, g in ipairs(World.enemies) do 
+    for _, g in pairs(World.enemies) do 
 
         if not g.target then g:setRandomTarget() end
 
@@ -56,9 +60,9 @@ function game:update(dt)
         if isInView(g) then
             if g:isCollidingWith(player) then
                 TEsound.play(player.damageSound)
-                player:damage(1)
+                player:damage(g.hitdamage)
                 screen:setShake(30)
-                table.remove(World.enemies, i)
+                g:kill()
                 break
             end
         end
@@ -69,9 +73,8 @@ function game:update(dt)
                     g:damage(p.hitdamage)
                     table.remove(World.projectiles, j)
                     if g:isDead() then
+                        g:kill()
                         World.score = World.score + g.points
-                        table.remove(World.enemies, i)
-                        TEsound.play(g.deathSound)
                     end
                 end
             end
@@ -121,6 +124,8 @@ function game:update(dt)
 
     if bump then player:addForce(player.velocity:mirrorOn(bump) * 3) end
 
+    for _, pt in pairs(World.particles) do pt:update(dt) end
+
     camera:lookAt(Window.campos.x, Window.campos.y)
 end
 
@@ -131,7 +136,8 @@ function game:draw()
     love.graphics.draw(Assets.images.background, bgQuad, 0, 0)
     player:draw()
     for _, g in pairs(World.enemies) do g:draw() end
-    for _, b in pairs(World.projectiles) do b:draw() end
+    for _, p in pairs(World.projectiles) do p:draw() end
+    for _, pt in pairs(World.particles) do pt:draw() end
     camera:detach()
 
     -- draw fps

@@ -11,6 +11,7 @@ function Ghost:initialize()
     self.maxspeed = 1
     self.points = 1000
     self.health = 2
+    self.hitdamage = 1
 end
 
 function Ghost:update(dt)
@@ -30,6 +31,14 @@ function Ghost:setRandomTarget()
     local targetx = math.random(5, World.width - 5)
     local targety = math.random(5, World.height - 5)
     self.target = vec(targetx, targety)
+end
+
+function Ghost:kill()
+    TEsound.play(self.deathSound)
+    dp = GhostDeath:new(self.position, self.rotation)
+    World.particles[dp.uuid] = dp
+    World.enemies[self.uuid] = nil
+    World.enemiescount = World.enemiescount - 1
 end
 
 function Ghost:draw()

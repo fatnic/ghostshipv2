@@ -9,6 +9,7 @@ vec       = require 'ext.hump.vector'
 class     = require 'ext.middleclass'
 anim8     = require 'ext.anim8'
 screen    = require 'ext.shack'
+UUID      = require 'ext.uuid'
 
 require 'ext.TEsound'
 
@@ -30,6 +31,7 @@ Health     = require 'libs.mixins.health'
 Sprite = require 'libs.sprite'
 Player = require 'libs.player'
 Ghost = require 'libs.ghost'
+GhostDeath = require 'libs.ghostdeath'
 
 Projectile = require 'libs.projectile'
 Weapons = require 'libs.weapons'
