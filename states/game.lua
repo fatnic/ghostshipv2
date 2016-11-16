@@ -1,4 +1,5 @@
 game = {}
+game.pased = false
 
 World = { 
     width = 5000,
@@ -24,7 +25,17 @@ end
 
 function game:update(dt)
 
-    if Input:pressed 'escape' then love.event.push('quit') end
+    if game.paused then
+        if Input:pressed 'escape' then 
+            game.paused = not game.paused; 
+        end
+    
+        if Input:pressed 'quit' then game:quit() end
+
+        return
+    end
+
+    if Input:pressed 'escape' then game.paused = not game.paused; return end
 
     -- for debug
     if Input:pressed 'heal' then player:heal(nil, true) end
@@ -41,10 +52,7 @@ function game:update(dt)
         g = Ghost:new()
         g.uuid = uuid()
         g.maxspeed = math.random(5, 20) / 10.0
-        while not goodpos do
-            g.position = vec(math.random(1, World.width), math.random(1, World.height))
-            if not isInView(g) then goodpos = true end
-        end
+        g.position = vec(math.random(1, World.width), math.random(1, World.height))
         World.enemies[g.uuid] = g
         World.enemiescount = World.enemiescount + 1
     end
@@ -63,6 +71,7 @@ function game:update(dt)
                 player:damage(g.hitdamage)
                 screen:setShake(30)
                 g:kill()
+                if player.health <= 0 then Gamestate.switch(gameover) end
                 break
             end
         end
@@ -126,6 +135,8 @@ function game:update(dt)
 
     for _, pt in pairs(World.particles) do pt:update(dt) end
 
+    if World.score > Window.hiscore then Window.hiscore = World.score end
+
     camera:lookAt(Window.campos.x, Window.campos.y)
 end
 
@@ -168,6 +179,18 @@ function game:draw()
     -- draw score
     love.graphics.setColor(255, 255, 255, 255)
     love.graphics.setFont(fntScore)
-    love.graphics.print("SCORE: " .. comma_value(World.score), 30, Window.height - 30)
+    love.graphics.print("SCORE: " .. comma_value(World.score) .. "         HISCORE: " .. comma_value(Window.hiscore), 30, Window.height - 30)
+
+    -- if paused
+    if game.paused then
+        love.graphics.print("PAUSED", Window.width /2, 10)
+        love.graphics.print("Press 'ESC' to return or 'q' to quit", Window.width/2 - 150, 30)
+    end
 end
 
+function game:quit()
+    file = io.open('data/hiscore.txt', 'w')
+    file:write(Window.hiscore)
+    file:close()
+    love.event.push('quit')
+end

@@ -20,6 +20,7 @@ require 'libs.maths.helpers'
 require 'states.splash'
 require 'states.mainmenu'
 require 'states.game'
+require 'states.gameover'
 
 -- mixins
 Physics    = require 'libs.mixins.physics'
@@ -41,7 +42,7 @@ fntScore = Assets.fonts.grobold(20)
 fntDigital = Assets.fonts.arcadeclassic(18)
 
 -- window
-Window = { width = 0, height = 0, oldWidth = 800, oldHeight = 600, view = { top = 0, left = 0 }, campos = { x = 0, y = 0 }} 
+Window = { hiscore = 0, width = 0, height = 0, oldWidth = 800, oldHeight = 600, view = { top = 0, left = 0 }, campos = { x = 0, y = 0 }} 
 
 -- input
 baton = require 'ext.baton'
@@ -50,6 +51,9 @@ Input = baton.new({
     rotright   = {'key:right', 'key:d'},
     forwards   = {'key:up', 'key:w'},
     reverse    = {'key:down', 'key:s'},
+    strafeleft = {'key:q'},
+    straferight = {'key:e'},
+
     fire       = {'key:space'},
 
     heal       = {'key:h'},
@@ -65,6 +69,8 @@ Input = baton.new({
 
     escape     = {'key:escape'},
     fullscreen = {'key:/'},
+    pause      = {'key:p'},
+    quit       = {'key:q'},
 })
 
 -- love
@@ -72,8 +78,13 @@ function love.load(args)
     love.mouse.setVisible(false)
     Window.width = love.graphics:getWidth()
     Window.height = love.graphics:getHeight()
+
+    file = io.open('data/hiscore.txt', 'r')
+    Window.hiscore = tonumber(file:read())
+    file:close()
+
     Gamestate.registerEvents()
-    Gamestate.switch(game)
+    Gamestate.switch(mainmenu)
 end
 
 function love.update(dt)

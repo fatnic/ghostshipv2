@@ -18,7 +18,7 @@ function Player:initialize()
 
     self.particles = love.graphics.newParticleSystem(Assets.images.particle, 16)
     self.particles:setParticleLifetime(0.5, 1.2)
-    self.particles:setColors({0, 90, 200, 15})
+    self.particles:setColors({128, 128, 0, 15})
     self.particles:setSizes(0.2, 1)
     self.particles:setSizeVariation(0.8)
     self.particles:setSpeed(28)
@@ -34,6 +34,9 @@ function Player:input(dt)
 
     if Input:down 'rotleft'       then self:rotate(-self.rotspeed * dt) end
     if Input:down 'rotright'      then self:rotate(self.rotspeed * dt) end
+
+    if Input:pressed 'strafeleft' then self:addForce(-rad2vec(self.rotation):perpendicular():normalizeInplace() * self.maxspeed * 1.5) end
+    if Input:pressed 'straferight' then self:addForce(rad2vec(self.rotation):perpendicular():normalizeInplace() * self.maxspeed * 1.5) end
 
     if Input:pressed 'bullet'     then self.weapon = 'bullet' end
     if Input:pressed 'dualbullet' then self.weapon = 'dualbullet' end

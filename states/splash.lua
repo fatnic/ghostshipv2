@@ -6,7 +6,7 @@ end
 
 function splash:update(dt)
     showmenu = Timer.after(4, function() Gamestate.switch(mainmenu) end)
-    if Input:pressed 'space' then
+    if Input:pressed 'fire' then
         Timer.cancel(showmenu)
         Gamestate.switch(mainmenu) 
     end
